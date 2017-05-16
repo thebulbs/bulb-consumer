@@ -1,0 +1,27 @@
+{
+  "name": "bulb-consumer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive",
+    "consumer": "node ./src/consumer.js"
+  },
+  "author": "Matthias Laug",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "dotenv": "^4.0.0",
+    "event-store-client": "0.0.11",
+    "eventstore-node": "^0.1.2",
+    "feedme": "^1.0.0",
+    "feedparser": "^2.2.0",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "chai": "^3.5.0",
+    "karma": "^1.6.0",
+    "mocha": "^3.2.0"
+  }
+}
