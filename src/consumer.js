@@ -1,5 +1,6 @@
 const client = require('eventstore-node')
 const knowledge = require('./adapter/knowledge')
+const config = require('./config')
 
 const eventAppeared = (subscription, event) => {
     knowledge.store(event.originalEvent.data)
@@ -13,7 +14,7 @@ const credentials = new client.UserCredentials("admin", "changeit")
 const settings = {
     verboseLogging: true
 }
-const endpoint = "tcp://localhost:1113"
+const endpoint = config.eventstore.endpoint
 const connection = client.createConnection(settings, endpoint)
 
 connection.connect().catch(err => console.log(err))

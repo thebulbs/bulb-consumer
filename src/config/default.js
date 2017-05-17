@@ -5,7 +5,7 @@ module.exports = {
     },
 
     eventstore: {
-        url: process.env.EVENTSTORE_URL || "http://127.0.0.1:2113/streams/knowledge"
+        endpoint: process.env.EVENTSTORE_ENDPOINT || "tcp://127.0.0.1:1113"
     }
 
 }
