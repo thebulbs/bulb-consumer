@@ -1,7 +1,7 @@
 {
   "name": "bulb-consumer",
   "version": "1.0.0",
-  "description": "",
+  "description": "bulb-consumer",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive",
