@@ -2,6 +2,7 @@ const KnowledgeAdapter = require('../src/adapter/knowledge')
 const axios = require('axios')
 const sinon = require('sinon')
 const assert = require('chai').assert
+const config = require('../src/config')
 
 describe('Knowledge Adapter', function() {
 
@@ -15,19 +16,30 @@ describe('Knowledge Adapter', function() {
         sandbox.restore()
     })
 
-    it('should store event into knowledge database', () => {
+    it('should PUT bulb to knowledge api', () => {
         const axiosPostStub = sandbox.stub(axios, "put", () => {
             return Promise.resolve()
         })
-        KnowledgeAdapter.store({
+        let bulb = {
             "summary": "samson tiffy",
             "uuid": 1,
-        })
+        }
+        KnowledgeAdapter.store("addBulb", bulb)
         sinon.assert.calledOnce(axiosPostStub)
+        sinon.assert.calledWith(axiosPostStub, config.knowledge.url + "/bulbs", bulb)
     })
 
-    it('should retry if anything fails while sending backlog to knowledge', () => {
-
+    it('should DELETE bulb at knowledge api', () => {
+        const axiosPostStub = sandbox.stub(axios, "delete", () => {
+            return Promise.resolve()
+        })
+        let bulb = {
+            "summary": "samson tiffy",
+            "uuid": 1,
+        }
+        KnowledgeAdapter.store("deleteBulb", bulb)
+        sinon.assert.calledOnce(axiosPostStub)
+        sinon.assert.calledWith(axiosPostStub, config.knowledge.url + "/bulbs/" + bulb.uuid)
     })
 
 });

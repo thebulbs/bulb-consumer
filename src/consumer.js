@@ -3,7 +3,7 @@ const knowledge = require('./adapter/knowledge')
 const config = require('./config')
 
 const eventAppeared = (subscription, event) => {
-    knowledge.store(JSON.parse(event.originalEvent.data.toString()))
+    knowledge.store(event.originalEvent.eventType, JSON.parse(event.originalEvent.data.toString()))
 }
 
 const subscriptionDropped = (subscription, reason, error) =>
