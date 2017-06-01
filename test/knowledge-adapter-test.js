@@ -17,7 +17,7 @@ describe('Knowledge Adapter', function() {
     })
 
     it('should PUT bulb to knowledge api', () => {
-        const axiosPostStub = sandbox.stub(axios, "put", () => {
+        const axiosPostStub = sandbox.stub(axios, "put").callsFake(() => {
             return Promise.resolve()
         })
         let bulb = {
@@ -30,7 +30,7 @@ describe('Knowledge Adapter', function() {
     })
 
     it('should DELETE bulb at knowledge api', () => {
-        const axiosPostStub = sandbox.stub(axios, "delete", () => {
+        const axiosPostStub = sandbox.stub(axios, "delete").callsFake(() => {
             return Promise.resolve()
         })
         let bulb = {

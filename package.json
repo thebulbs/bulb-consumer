@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "dotenv": "^4.0.0",
-    "eventstore-node": "^0.1.2",
+    "node-eventstore-client": "^0.1.2",
     "lodash": "^4.17.4"
   },
   "devDependencies": {

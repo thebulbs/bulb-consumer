@@ -4,7 +4,7 @@ const config = require('../config')
 module.exports = {
 
     store: (type, data) => {
-
+        console.log("sending update to database", type, data)
         let promise
         // I hate if cases ...
         if ( type === "deleteBulb" )
