@@ -2,11 +2,15 @@ const client = require('node-eventstore-client')
 const knowledge = require('./adapter/knowledge')
 const config = require('./config')
 
-const eventAppeared = (subscription, event) => {
+const eventAppeared = (stream, event) => {
     knowledge.store(
         event.originalEvent.eventType,
         JSON.parse(event.originalEvent.data.toString())
     )
+}
+
+const liveProcessingStarted = () => {
+    console.log("Caught up with previously stored events. Listening for new events.")
 }
 
 const subscriptionDropped = (subscription, reason, error) =>
@@ -22,24 +26,22 @@ const connection = client.createConnection(settings, endpoint)
 
 connection.connect().catch(err => console.log(err))
 
-connection.on('heartbeatInfo', heartbeatInfo => {
-    console.log('Connected to endpoint', heartbeatInfo.remoteEndPoint)
-    console.log('Heartbeat latency', heartbeatInfo.responseReceivedAt - heartbeatInfo.requestSentAt)
-})
-
 connection.once("connected", tcpEndPoint => {
-    console.log(`Connected to eventstore at ${tcpEndPoint.host}:${tcpEndPoint.port}`)
-    connection.connectToPersistentSubscription(
-        'knowledge',
-        'bulb',
+    const subscription = connection.subscribeToStreamFrom(
+        "knowledge",
+        null,
+        true,
         eventAppeared,
+        liveProcessingStarted,
         subscriptionDropped,
         credentials
     )
+    console.log(`Connected to eventstore at ${tcpEndPoint.host}:${tcpEndPoint.port}`)
+    console.log(`subscription.isSubscribedToAll: ${subscription.isSubscribedToAll}`)
 })
 
-connection.on("error", error =>
-    console.log(`Error occurred on connection: ${error}`)
+connection.on("error", err =>
+    console.log(`Error occurred on connection: ${err}`)
 )
 
 connection.on("closed", reason =>
