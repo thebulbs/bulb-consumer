@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const assert = require('chai').assert
 const config = require('../src/config')
 
-describe('Knowledge Adapter', function() {
+describe('Knowledge Adapter', function () {
 
     let sandbox
 
@@ -20,26 +20,50 @@ describe('Knowledge Adapter', function() {
         const axiosPostStub = sandbox.stub(axios, "put").callsFake(() => {
             return Promise.resolve()
         })
-        let bulb = {
-            "summary": "samson tiffy",
-            "uuid": 1,
+        let event = {
+            data: {
+                "summary": "samson tiffy",
+                "uuid": 1,
+            },
+            auth: {
+                user: "123",
+                token: "token"
+            }
         }
-        KnowledgeAdapter.store("addBulb", bulb)
+
+        KnowledgeAdapter.store("addBulb", event)
         sinon.assert.calledOnce(axiosPostStub)
-        sinon.assert.calledWith(axiosPostStub, config.knowledge.url + "/bulbs", bulb)
+        sinon.assert.calledWith(axiosPostStub, {
+            url: config.knowledge.url + "/123/bulbs",
+            data: event.data,
+            headers: {
+                Authorization: "Bearer: token"
+            }
+        })
     })
 
     it('should DELETE bulb at knowledge api', () => {
-        const axiosPostStub = sandbox.stub(axios, "delete").callsFake(() => {
+        const axiosDeleteStub = sandbox.stub(axios, "delete").callsFake(() => {
             return Promise.resolve()
         })
-        let bulb = {
-            "summary": "samson tiffy",
-            "uuid": 1,
+        let event = {
+            data: {
+                "summary": "samson tiffy",
+                "uuid": 1,
+            },
+            auth: {
+                user: "123",
+                token: "token"
+            }
         }
-        KnowledgeAdapter.store("deleteBulb", bulb)
-        sinon.assert.calledOnce(axiosPostStub)
-        sinon.assert.calledWith(axiosPostStub, config.knowledge.url + "/bulbs/" + bulb.uuid)
+        KnowledgeAdapter.store("deleteBulb", event)
+        sinon.assert.calledOnce(axiosDeleteStub)
+        sinon.assert.calledWith(axiosDeleteStub, {
+            url: config.knowledge.url + "/123/bulbs/" + event.data.uuid,
+            headers: {
+                Authorization: "Bearer: token"
+            }
+        })
     })
 
 });

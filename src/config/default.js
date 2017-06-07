@@ -5,7 +5,7 @@ module.exports = {
     },
 
     eventstore: {
-        endpoint: process.env.EVENTSTORE_ENDPOINT || "tcp://127.0.0.1:1113"
+        endpoint: process.env.EVENTSTORE_ENDPOINT || "tcp://eventstore-25f46711.e084dea4.svc.dockerapp.io/:1113"
     }
 
 }
