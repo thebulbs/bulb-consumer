@@ -33,14 +33,8 @@ describe('Knowledge Adapter', function () {
 
         KnowledgeAdapter.store("addBulb", event)
         sinon.assert.calledOnce(axiosPutStub)
-        sinon.assert.calledWith(axiosPutStub,
-            config.knowledge.url + "/123/bulbs",
-            {
-                data: event.data,
-                headers: {
-                    Authorization: "Bearer: token"
-                }
-            })
+        sinon.assert.calledWith(axiosPutStub, config.knowledge.url + "/123/bulbs", event.data)
+        sinon.assert.match(axios.defaults.headers.common['Authorization'], "Bearer: token")
     })
 
     it('should DELETE bulb at knowledge api', () => {
@@ -58,14 +52,11 @@ describe('Knowledge Adapter', function () {
             }
         }
         KnowledgeAdapter.store("deleteBulb", event)
+
         sinon.assert.calledOnce(axiosDeleteStub)
-        sinon.assert.calledWith(axiosDeleteStub,
-            config.knowledge.url + "/123/bulbs/" + event.data.uuid,
-            {
-                headers: {
-                    Authorization: "Bearer: token"
-                }
-            })
+        sinon.assert.calledWith(axiosDeleteStub, config.knowledge.url + "/123/bulbs/" + event.data.uuid)
+        sinon.assert.match(axios.defaults.headers.common['Authorization'], "Bearer: token")
+
     })
 
 });
