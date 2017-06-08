@@ -9,7 +9,7 @@ module.exports = {
         // I hate if cases ...
         if (type === "deleteBulb")
             promise = axios({
-                    methid: 'delete',
+                    method: 'delete',
                     url: config.knowledge.url + '/' + payload.auth.user + '/bulbs/' + payload.data.uuid,
                     headers: {
                         Authorization: "Bearer: " + payload.auth.token
@@ -18,7 +18,7 @@ module.exports = {
             )
         else
             promise = axios({
-                methid: 'put',
+                method: 'put',
                 url: config.knowledge.url + '/' + payload.auth.user + '/bulbs',
                 data: payload.data,
                 headers: {
