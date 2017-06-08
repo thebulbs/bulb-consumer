@@ -17,7 +17,7 @@ describe('Knowledge Adapter', function () {
     })
 
     it('should PUT bulb to knowledge api', () => {
-        const axiosPostStub = sandbox.stub(axios, "put").callsFake(() => {
+        const axiosPutStub = sandbox.stub(axios, 'put').callsFake(() => {
             return Promise.resolve()
         })
         let event = {
@@ -32,14 +32,15 @@ describe('Knowledge Adapter', function () {
         }
 
         KnowledgeAdapter.store("addBulb", event)
-        sinon.assert.calledOnce(axiosPostStub)
-        sinon.assert.calledWith(axiosPostStub, {
-            url: config.knowledge.url + "/123/bulbs",
-            data: event.data,
-            headers: {
-                Authorization: "Bearer: token"
-            }
-        })
+        sinon.assert.calledOnce(axiosPutStub)
+        sinon.assert.calledWith(axiosPutStub,
+            config.knowledge.url + "/123/bulbs",
+            {
+                data: event.data,
+                headers: {
+                    Authorization: "Bearer: token"
+                }
+            })
     })
 
     it('should DELETE bulb at knowledge api', () => {
@@ -58,12 +59,13 @@ describe('Knowledge Adapter', function () {
         }
         KnowledgeAdapter.store("deleteBulb", event)
         sinon.assert.calledOnce(axiosDeleteStub)
-        sinon.assert.calledWith(axiosDeleteStub, {
-            url: config.knowledge.url + "/123/bulbs/" + event.data.uuid,
-            headers: {
-                Authorization: "Bearer: token"
-            }
-        })
+        sinon.assert.calledWith(axiosDeleteStub,
+            config.knowledge.url + "/123/bulbs/" + event.data.uuid,
+            {
+                headers: {
+                    Authorization: "Bearer: token"
+                }
+            })
     })
 
 });
